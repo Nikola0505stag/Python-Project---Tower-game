@@ -11,7 +11,7 @@ def _draw_text(surface, text, x, y, font, color=sett.WHITE, center=False):
 
 class Button:
     def __init__(self, rect, label, color=(60, 60, 80), hover_color=(90, 90, 120), text_color=sett.WHITE, font_size=16, bold=False):
-        self.rect = rect
+        self.rect = pygame.Rect(rect)
         self.label = label
         self.color = color
         self.hover_color = hover_color
@@ -110,7 +110,7 @@ class Panel:
         y += 65
 
         if wave_mgr.state == 'waiting':
-            _draw_text(surface, f'Next wave in {wave_mgr.wait_seconds_left: 1f}s',
+            _draw_text(surface, f'Next wave in {wave_mgr.wait_seconds_left: .1f}s',
                        px, y, self._f11, sett.ORANGE, center=True)
         elif wave_mgr.state == 'spawning':
             _draw_text(surface, 'Spawning...', px, y, self._f11, sett.PANEL_RED, center=True)
@@ -122,7 +122,7 @@ class Panel:
         for tower_button in self.tower_buttons:
             tower_button.draw(surface, mouse_pos, economy.gold, selected_type)
 
-        can_send = wave_mgr == 'waiting'
+        can_send = wave_mgr.state == 'waiting'
         self.btn_send_wave.draw(surface, mouse_pos, disabled=not can_send)
 
         self.btn_speed.label = '>> 1x' if speed_multiplier > 1 else '>> 2x'

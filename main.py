@@ -8,6 +8,7 @@ from tower import Tower, TowerGroup
 from projectile import ProjectileGroup
 from economy import Economy
 from wave_manager import WaveManager
+from ui import Panel
 
 def main():
     pygame.init()
@@ -21,17 +22,29 @@ def main():
     projectile_group = ProjectileGroup()
     economy = Economy()
     wave_mgr = WaveManager(game_map.pixel_waypoints, enemy_group)
+    panel = Panel()
 
+    selected_type = 'basic'
+    speed_multiplier = 1
     game_over = False
     font = pygame.font.SysFont('consolas', 28, bold=True)
 
     while True:
         dt = clock.tick(FPS) / 1000.0
+        mouse = pygame.mouse.get_pos()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            actions = panel.handle_event(event, economy, wave_mgr)
+            if 'select_type' in actions:
+                selected_type = actions['select_type']
+            if 'send_wave' in actions:
+                wave_mgr.skip_wait()
+            if 'toggle_speed' in actions:
+                speed_multiplier = 1 if speed_multiplier > 1 else 2
 
             if not game_over and event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = event.pos
@@ -45,12 +58,13 @@ def main():
                             tower_group.add(t)
 
         if not game_over:
-            wave_mgr.update(dt)
-            gold_earned, lives_lost = enemy_group.update(dt)
+            eff_dt = dt * speed_multiplier
+            wave_mgr.update(eff_dt)
+            gold_earned, lives_lost = enemy_group.update(eff_dt)
             economy.earn(gold_earned)
             economy.lose_life(lives_lost)
             tower_group.update(dt, enemy_group, projectile_group)
-            projectile_group.update(dt)
+            projectile_group.update(eff_dt)
 
             if economy.is_game_over():
                 game_over = True
@@ -61,6 +75,7 @@ def main():
         tower_group.draw(screen)
         enemy_group.draw(screen)
         projectile_group.draw(screen)
+        panel.draw(screen, economy, wave_mgr, selected_type, speed_multiplier, mouse)
 
         txt = font.render(
                 f'Gold: {economy.gold}   Lives: {economy.lives}   Wave: {wave_mgr.wave_number}',
