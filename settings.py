@@ -10,6 +10,11 @@ CELL_SIZE = 48
 GAME_WIDTH = GRID_COLS * CELL_SIZE
 GAME_HEIGHT = GRID_ROWS * CELL_SIZE
 
+# money
+STARTING_GOLD = 300
+
+#lives
+STARTING_LIVES = 20
 
 #colors 
 GRASS_COLOR = (55, 115, 35)
@@ -35,9 +40,6 @@ ENEMY_TYPES = {
         "basic": {'name': 'Basic', 'hp': 100, 'speed': 80, 'color': RED, 'size': 14, 'hp': 100, 'reward': 50}
         }
 
-# money
-STARTING_GOLD = 300
-
 # towers
 TOWER_TYPES = {
         'basic': {
@@ -50,5 +52,4 @@ TOWER_TYPES = {
             }
 
         }
-
 
