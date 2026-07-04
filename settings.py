@@ -19,6 +19,8 @@ WHITE = (255, 255, 255)
 GREEN = (34, 139, 34)
 DARK_GREY = (40, 40, 40)
 YELLOW = (255, 215, 0)
+RED = (210, 55, 55)
+STEEL_BLUE = (70, 130, 180)
 
 # maps
 MAPS = [
@@ -28,6 +30,25 @@ MAPS = [
             }
         ]
 
+# enemies
 ENEMY_TYPES = {
-            "basic": {'name': 'Basic', 'hp': 100, 'speed': 80, 'color': (210, 55, 55), 'size': 14}
+            "basic": {'name': 'Basic', 'hp': 100, 'speed': 80, 'color': RED, 'size': 14}
         }
+
+# money
+STARTING_GOLD = 300
+
+# towers
+TOWER_TYPES = {
+        'basic': {
+            'name': 'Basic',
+            'cost': 100,
+            'color': STEEL_BLUE,
+            'damage': 20,
+            'range': 3.0,
+            'fire_rate': 1.0
+            }
+
+        }
+
+
