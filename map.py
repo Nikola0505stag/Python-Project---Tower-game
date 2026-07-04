@@ -39,6 +39,7 @@ class GameMap:
         self.path_cells, self.path_set = build_path_cells(self.waypoints)
         self.pixel_waypoints = [cell_to_pixel(c, r) for c, r in self.waypoints]
         self._bg = self._make_background()
+        self.towers = {}
 
     def _make_background(self):
         surf = pygame.Surface((sett.GAME_WIDTH, sett.GAME_HEIGHT))
@@ -58,3 +59,17 @@ class GameMap:
 
     def draw(self, surface):
         surface.blit(self._bg, (0, 0))
+
+    def is_buildable(self, col, row):
+        return (
+                0 <= col < sett.GRID_COLS and 
+                0 <= row < sett.GRID_ROWS and 
+                (col, row) not in self.path_set and
+                (col, row) not in self.towers
+                )
+
+    def place_tower(self, col, row, tower):
+        self.towers[(col, row)] = tower
+
+    def get_tower(self, col, row):
+        return self.towers.get((col, row))
