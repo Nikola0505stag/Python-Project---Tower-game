@@ -234,3 +234,31 @@ class GameOverScreen:
         if self.btn_menu.is_clicked(event):
             return 'menu'
         return None
+
+
+class PauseScreen:
+    def __init__(self):
+        self._f36 = _font(36, bold=True)
+        cx = sett.SCREEN_WIDTH // 2
+        self.btn_resume = Button((cx - 120, 320, 240, 50), 'Resume',
+                                 color=(40, 100, 40), hover_color=(60, 140, 60),
+                                 font_size=20, bold=True)
+        self.btn_menu = Button((cx - 120, 382, 240, 50), 'Main Menu',
+                               color=(60, 60, 90), hover_color=(80, 80, 120),
+                               font_size=20)
+                            
+        def draw(self, surface, mouse_pos):
+            overlay = pygame.Surface((sett.SCREEN_WIDTH, sett.SCREEN_HEIGHT), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 150))
+            surface.blit(overlay, (0, 0))
+            cx = sett.SCREEN_WIDTH // 2
+            _draw_text(surface, 'PAUSED', cx, 245, self._f36, sett.YELLOW, center=True)
+            self.btn_resume.draw(surface, mouse_pos)
+            self.btn_menu.draw(surface, mouse_pos)
+
+        def hande_event(self, event):
+            if self.btn_resume.is_clicked(event):
+                return 'resume'
+            if self.btn_menu.is_clicked(event):
+                return 'menu'
+            return None
