@@ -94,7 +94,41 @@ class Panel:
                 '>> 2x'
                 )
 
-    def draw(self, surface, economy, wave_mgr, selected_type, speed_multiplier, mouse_pos):
+        self.tower_buttons = [
+                TowerButton(self.PANEL_X + 10, btns_y, 'basic'),
+                TowerButton(self.PANEL_X + 70, btns_y, 'sniper'),
+                TowerButton(self.PANEL_X + 130, btns_y, 'slow'),
+                TowerButton(self.PANEL_X + 10, btns_y + 60, 'splash'),
+                ]
+        self.btn_upgrade = Button(
+                (self.PANEL_X + 10, 530, btn_w, 34),
+                'Upgrade', color=(40, 100, 140), hover_color=(55, 130, 180), bold=True
+                )
+        self.btn_sell = Button(
+                (self.PANEL_X + 10, 572, btn_w, 34),
+                'Sell', color=(120, 40, 40), hover_color=(160, 55, 55), bold=True
+                )
+    
+    def _draw_tower_info(self, surface, tower, economy, mouse_pos):
+        px = self.PANEL_X + sett.PANEL_WIDTH // 2
+        y = 460
+        _draw_text(surface, f'{tower.name} Lv{tower.level + 1}', px, y, self._f14, sett.YELLOW, center=True)
+        y += 18
+        _draw_text(surface, f'DMG {tower.damage} RNG{tower.range_cells:.1f}', px, y, self._f11, sett.LIGHT_GRAY, center=True)
+
+        if tower.can_upgrade():
+            affordable = economy.can_afford(tower.upgrade_cost)
+            self.btn_upgrade.label = f'Upgrade ${tower.upgrade_cost}'
+            self.btn_upgrade.draw(surface, mouse_pos, disabled=not affordable)
+        else:
+            self.btn_upgrade.label = 'MAX LEVEL'
+            self.btn_upgrade.draw(surface, mouse_pos, disabled=True)
+
+        self.btn_sell.label = f'Sell +${tower.sell_value()}'
+        self.btn_sell.draw(surface, mouse_pos)
+
+
+    def draw(self, surface, economy, wave_mgr, selected_type, speed_multiplier, mouse_pos, selected_tower=None):
         pygame.draw.rect(surface, sett.PANEL_BG, (self.PANEL_X, 0, sett.PANEL_WIDTH, sett.SCREEN_HEIGHT))
         pygame.draw.line(surface, sett.GRAY, (self.PANEL_X, 0), (self.PANEL_X, sett.SCREEN_HEIGHT), 2)
 
@@ -128,7 +162,10 @@ class Panel:
         self.btn_speed.label = '>> 1x' if speed_multiplier > 1 else '>> 2x'
         self.btn_speed.draw(surface, mouse_pos)
 
-    def handle_event(self, event, economy, wave_mgr):
+        if selected_tower:
+            self._draw_tower_info(surface, selected_tower, economy, mouse_pos)
+
+    def handle_event(self, event, economy, wave_mgr, selected_tower=None):
         actions = {}
 
         for tower_button in self.tower_buttons:
@@ -140,6 +177,13 @@ class Panel:
 
         if self.btn_speed.is_clicked(event):
             actions['toggle_speed'] = True
+
+        if selected_tower:
+            if self.btn_upgrade.is_clicked(event) and selected_tower.can_upgrade():
+                if economy.can_afford(selected_tower.upgrade_cost):
+                    actions['upgrade_tower'] = True
+            if self.btn_sell.is_clicked(event):
+                actions['sell_tower'] = True
 
         return actions 
 
