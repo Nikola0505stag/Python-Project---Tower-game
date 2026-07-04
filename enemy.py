@@ -75,14 +75,18 @@ class EnemyGroup:
 
         gold_earned = 0
         alive = []
+        lives_lost = 0
         for e in self.enemies:
-            if not e.alive and not e.reached_end:
-                gold_earned += e.reward
-            elif e.alive:
+            if not e.alive:
+                if e.reached_end:
+                    lives_lost += 1
+                else:
+                    gold_earned += e.reward
+            else:
                 alive.append(e)
             
         self.enemies = alive
-        return gold_earned
+        return gold_earned, lives_lost
 
     def draw(self, surface):
         for e in self.enemies:
@@ -95,3 +99,6 @@ class EnemyGroup:
                 if best is None or e.progress > best.progress:
                     best = e
         return best
+
+    def is_empty(self):
+        return len(self.enemies) == 0
