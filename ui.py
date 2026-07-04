@@ -65,3 +65,80 @@ class TowerButton:
                 event.button == 1 and
                 self.rect.collidepoint(event.pos) and
                 gold >= self.cost)
+
+
+class Panel:
+    PANEL_X = sett.GAME_WIDTH
+
+    def __init__(self):
+        self._f16 = _font(16, bold=True)
+        self._f14 = _font(14, bold=True)
+        self._f13 = _font(13)
+        self._f11 = _font(11)
+
+        px = self.PANEL_X + 10
+        btn_w = sett.PANEL_WIDTH - 20
+        btns_y = 175
+
+        self.tower_buttons = [
+                TowerButton(self.PANEL_X + 10, btns_y, 'basic')
+                ]
+
+        self.btn_send_wave = Button(
+                (px, btns_y + 70, btn_w, 32),
+                'Send Wave!', color=(50, 110, 50), hover_color=(70, 150, 70), bold=True
+                )
+
+        self.btn_speed = Button(
+                (px, btns_y + 112, btn_w, 30),
+                '>> 2x'
+                )
+
+    def draw(self, surface, economy, wave_mgr, selected_type, speed_multiplier, mouse_pos):
+        pygame.draw.rect(surface, sett.PANEL_BG, (self.PANEL_X, 0, sett.PANEL_WIDTH, sett.SCREEN_HEIGHT))
+        pygame.draw.line(surface, sett.GRAY, (self.PANEL_X, 0), (self.PANEL_X, sett.SCREEN_HEIGHT), 2)
+
+        px = self.PANEL_X + sett.PANEL_WIDTH // 2 
+        y = 14
+
+        _draw_text(surface, 'TOWER DEFENSE', px, y, self._f16, sett.YELLOW, center=True)
+        y += 28
+
+        _draw_text(surface, f'Gold   ${economy.gold}', px, y, self._f14, sett.YELLOW, center=True)
+        _draw_text(surface, f'Lives   ${economy.lives}', px, y + 20, self._f14, sett.GREEN if economy.lives > 5 else sett.PANEL_RED, center=True)
+        _draw_text(surface, f'Score   ${economy.score}', px, y + 40, self._f13, sett.LIGHT_GRAY, center=True)
+        y += 65
+
+        if wave_mgr.state == 'waiting':
+            _draw_text(surface, f'Next wave in {wave_mgr.wait_seconds_left: 1f}s',
+                       px, y, self._f11, sett.ORANGE, center=True)
+        elif wave_mgr.state == 'spawning':
+            _draw_text(surface, 'Spawning...', px, y, self._f11, sett.PANEL_RED, center=True)
+        elif wave_mgr.state == 'in_wave':
+            _draw_text(surface, 'Wave active', px, y, self._f11, (150, 220, 150), center=True)
+        elif wave_mgr.state == 'finished':
+            _draw_text(surface, 'All waves done!', px, y, self._f11, sett.YELLOW, center=True)
+
+        for tower_button in self.tower_buttons:
+            tower_button.draw(surface, mouse_pos, economy.gold, selected_type)
+
+        can_send = wave_mgr == 'waiting'
+        self.btn_send_wave.draw(surface, mouse_pos, disabled=not can_send)
+
+        self.btn_speed.label = '>> 1x' if speed_multiplier > 1 else '>> 2x'
+        self.btn_speed.draw(surface, mouse_pos)
+
+    def handle_event(self, event, economy, wave_mgr):
+        actions = {}
+
+        for tower_button in self.tower_buttons:
+            if tower_button.is_clicked(event, economy.gold):
+                actions['select_type'] = tower_button.type
+
+        if self.btn_send_wave.is_clicked(event) and wave_mgr.state == 'waiting':
+            actions['send_wave'] = True
+
+        if self.btn_speed.is_clicked(event):
+            actions['toggle_speed'] = True
+
+        return actions 
