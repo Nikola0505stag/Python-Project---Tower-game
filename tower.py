@@ -2,6 +2,7 @@ import pygame
 import math
 from settings import CELL_SIZE, TOWER_TYPES, DARK_GREY, WHITE, YELLOW
 from map import cell_to_pixel
+from projectile import Projectile
 
 class Tower:
     def __init__(self, tower_type, col, row):
@@ -14,7 +15,26 @@ class Tower:
         self.name = data['name']
         self.base_color = data['color']
         self.cost = data['cost']
+        self.damage = data['damage']
+        self.range_px = data['range'] * CELL_SIZE
+        self.fire_rate = data['fire_rate']
+        self.projectile_speed = 300
+
+        self._fire_timer = 0.0
         self._angle = 0.0
+
+    def update(self, dt, enemy_group, projectile_group):
+        self._fire_timer -= dt
+        target = enemy_group.get_first_in_range(self.cx, self.cy, self.range_px)
+
+        if target:
+            dx = target.x - self.cx
+            dy = target.y - self.cy
+
+            if self._fire_timer <= 0:
+                self._fire_timer = 1.0 / self.fire_rate
+                projectile = Projectile(self.cx, self.cy, target, self.damage, self.projectile_speed, self.base_color)
+                projectile_group.add(projectile)
 
     def draw(self, surface):
         cx, cy = self.cx, self.cy
@@ -23,6 +43,12 @@ class Tower:
         base_rect = pygame.Rect(cx - half, cy - half, half * 2, half * 2)
         pygame.draw.rect(surface, DARK_GREY, base_rect, border_radius=4)
         pygame.draw.rect(surface, self.base_color, base_rect.inflate(-4, -4), border_radius=3)
+
+        barrel_len = half + 2
+        end_x = cx + math.cos(self._angle) * barrel_len
+        end_y = cy + math.sin(self._angle) * barrel_len
+        pygame.draw.line(surface, DARK_GREY, (cx, cy), (int(end_x), int(end_y)), 6)
+        pygame.draw.line(surface, WHITE, (cx, cy), (int(end_x), int(end_y)), 4)
 
         font = pygame.font.SysFont('consolas', 11, bold=True)
         txt = font.render(self.name[0], True, WHITE)
@@ -35,6 +61,10 @@ class TowerGroup:
 
     def add(self, tower):
         self.towers.append(tower)
+
+    def update(self, dt, enemy_group, projectile_group):
+        for tower in self.towers:
+            tower.update(dt, enemy_group, projectile_group)
 
     def draw(self, surface):
         for t in self.towers:
