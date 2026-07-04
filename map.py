@@ -35,9 +35,9 @@ def build_path_cells(waypoints):
 
 class GameMap:
     def __init__(self, map_index):
-        data = self.waypoints = sett.MAPS[map_index]['path']
-        self.path_cells, self.path_set = build_path_cells(data)
-        self.pixel_waypoints = [cell_to_pixel(c, r) for c, r in data]
+        self.waypoints = sett.MAPS[map_index]['path']
+        self.path_cells, self.path_set = build_path_cells(self.waypoints)
+        self.pixel_waypoints = [cell_to_pixel(c, r) for c, r in self.waypoints]
         self._bg = self._make_background()
 
     def _make_background(self):
@@ -47,7 +47,7 @@ class GameMap:
         for col, row in self.path_cells:
             r = pygame.Rect(col * sett.CELL_SIZE, row * sett.CELL_SIZE, sett.CELL_SIZE, sett.CELL_SIZE)
             pygame.draw.rect(surf, sett.PATH_COLOR, r)
-            pygame.draw.rect(surf, (160, 130, 80), r, 1)
+            pygame.draw.rect(surf, (160, 130, 80), r, 1) # brown
 
         for col in range(sett.GRID_COLS + 1):
             pygame.draw.line(surf, sett.GRID_LINE, (col * sett.CELL_SIZE, 0), (col * sett.CELL_SIZE, sett.GAME_HEIGHT), 1)
