@@ -201,3 +201,36 @@ class MapSelectScreen:
             if btn.is_clicked(event):
                 return idx
         return None
+
+
+class GameOverScreen:
+    def __init__(self):
+        self._f48 = _font(48, bold=True)
+        self._f22 = _font(22)
+        cx = sett.SCREEN_WIDTH // 2
+        self.btn_retry = Button((cx - 130, 370, 260, 50), 'Play Again',
+                                color=(40, 100, 40), hover_color=(60, 140, 60),
+                                font_size=20, bold=True)
+        self.btn_menu = Button((cx - 130, 430, 260, 50), 'Main Manu',
+                               color=(60, 60, 90), hover_color=(60, 80, 120),
+                               font_size=20)
+
+    def draw(self, surface, score, wave, mouse_pos, victory=False):
+        overlay = pygame.Surface((sett.SCREEN_WIDTH, sett.SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 170))
+        surface.blit(overlay, (0, 0))
+        cx = sett.SCREEN_WIDTH // 2
+        title = 'YOU WON' if victory else 'GAME OVER'
+        color = sett.YELLOW if victory else sett.PANEL_RED
+        _draw_text(surface, title, cx, 220, self._f48, color, center=True)
+        _draw_text(surface, f'Score: {score}   Wave: {wave}',
+                   cx, 310, self._f22, sett.WHITE, center=True)
+        self.btn_retry.draw(surface, mouse_pos)
+        self.btn_menu.draw(surface, mouse_pos)
+
+    def handle_event(self, event):
+        if self.btn_retry.is_clicked(event):
+            return 'retry'
+        if self.btn_menu.is_clicked(event):
+            return 'menu'
+        return None
