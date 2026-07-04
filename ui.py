@@ -247,18 +247,18 @@ class PauseScreen:
                                color=(60, 60, 90), hover_color=(80, 80, 120),
                                font_size=20)
                             
-        def draw(self, surface, mouse_pos):
-            overlay = pygame.Surface((sett.SCREEN_WIDTH, sett.SCREEN_HEIGHT), pygame.SRCALPHA)
-            overlay.fill((0, 0, 0, 150))
-            surface.blit(overlay, (0, 0))
-            cx = sett.SCREEN_WIDTH // 2
-            _draw_text(surface, 'PAUSED', cx, 245, self._f36, sett.YELLOW, center=True)
-            self.btn_resume.draw(surface, mouse_pos)
-            self.btn_menu.draw(surface, mouse_pos)
+    def draw(self, surface, mouse_pos):
+        overlay = pygame.Surface((sett.SCREEN_WIDTH, sett.SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 150))
+        surface.blit(overlay, (0, 0))
+        cx = sett.SCREEN_WIDTH // 2
+        _draw_text(surface, 'PAUSED', cx, 245, self._f36, sett.YELLOW, center=True)
+        self.btn_resume.draw(surface, mouse_pos)
+        self.btn_menu.draw(surface, mouse_pos)
 
-        def hande_event(self, event):
-            if self.btn_resume.is_clicked(event):
-                return 'resume'
-            if self.btn_menu.is_clicked(event):
-                return 'menu'
-            return None
+    def handle_event(self, event):
+        if self.btn_resume.is_clicked(event):
+            return 'resume'
+        if self.btn_menu.is_clicked(event):
+            return 'menu'
+        return None
