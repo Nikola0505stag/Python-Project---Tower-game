@@ -1,15 +1,14 @@
 import pygame
 import sys
-
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 720
-FPS = 60
+from settings import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
+from map import GameMap
 
 def main():
     pygame.init()
     pygame.display.set_caption('Tower Defense')
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))##, pygame.FULLSCREEN)
     clock = pygame.time.Clock()
+    game_map = GameMap(0)
 
     while True:
         clock.tick(FPS)
@@ -18,8 +17,9 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            screen.fill((0,0,0))
-            pygame.display.flip()
+        screen.fill((0,0,0))
+        game_map.draw(screen)
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
