@@ -69,7 +69,7 @@ class TowerButton:
 
 class Panel:
     PANEL_X = sett.GAME_WIDTH
-
+    
     def __init__(self):
         self._f16 = _font(16, bold=True)
         self._f14 = _font(14, bold=True)
@@ -81,33 +81,30 @@ class Panel:
         btns_y = 175
 
         self.tower_buttons = [
-                TowerButton(self.PANEL_X + 10, btns_y, 'basic')
-                ]
+            TowerButton(self.PANEL_X + 10, btns_y, 'basic'),
+            TowerButton(self.PANEL_X + 70, btns_y, 'sniper'),
+            TowerButton(self.PANEL_X + 130, btns_y, 'slow'),
+            TowerButton(self.PANEL_X + 10, btns_y + 60, 'splash'),
+        ]
 
         self.btn_send_wave = Button(
-                (px, btns_y + 70, btn_w, 32),
-                'Send Wave!', color=(50, 110, 50), hover_color=(70, 150, 70), bold=True
-                )
+            (px, btns_y + 135, btn_w, 32),
+            'Send Wave!', color=(50, 110, 50), hover_color=(70, 150, 70), bold=True
+        )
 
         self.btn_speed = Button(
-                (px, btns_y + 112, btn_w, 30),
-                '>> 2x'
-                )
+            (px, btns_y + 175, btn_w, 30),
+            '>> 2x'
+        )
 
-        self.tower_buttons = [
-                TowerButton(self.PANEL_X + 10, btns_y, 'basic'),
-                TowerButton(self.PANEL_X + 70, btns_y, 'sniper'),
-                TowerButton(self.PANEL_X + 130, btns_y, 'slow'),
-                TowerButton(self.PANEL_X + 10, btns_y + 60, 'splash'),
-                ]
         self.btn_upgrade = Button(
-                (self.PANEL_X + 10, 530, btn_w, 34),
-                'Upgrade', color=(40, 100, 140), hover_color=(55, 130, 180), bold=True
-                )
+            (self.PANEL_X + 10, 530, btn_w, 34),
+            'Upgrade', color=(40, 100, 140), hover_color=(55, 130, 180), bold=True
+        )
         self.btn_sell = Button(
-                (self.PANEL_X + 10, 572, btn_w, 34),
-                'Sell', color=(120, 40, 40), hover_color=(160, 55, 55), bold=True
-                )
+            (self.PANEL_X + 10, 572, btn_w, 34),
+            'Sell', color=(120, 40, 40), hover_color=(160, 55, 55), bold=True
+        )
     
     def _draw_tower_info(self, surface, tower, economy, mouse_pos):
         px = self.PANEL_X + sett.PANEL_WIDTH // 2

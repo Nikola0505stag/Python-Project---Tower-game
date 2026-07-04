@@ -73,3 +73,7 @@ class GameMap:
 
     def get_tower(self, col, row):
         return self.towers.get((col, row))
+
+    def remove_tower(self, col, row):
+        if (col, row) in self.towers:
+            del self.towers[(col, row)]
