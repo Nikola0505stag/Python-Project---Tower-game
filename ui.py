@@ -142,3 +142,33 @@ class Panel:
             actions['toggle_speed'] = True
 
         return actions 
+
+
+class MenuScreen:
+    def __init__(self):
+        self._f48 = _font(48, bold=True)
+        self._f20 = _font(20)
+        self._f14 = _font(14)
+        cx =  sett.SCREEN_WIDTH // 2
+        self.btn_play = Button((cx - 110, 300, 220, 50), 'Play',
+                               color=(40, 100, 40), hover_color=(60, 140, 60),
+                               font_size=22, bold=True)
+        self.btn_quit = Button((cx - 110, 370, 220, 50), 'Quit',
+                               color=(100, 40, 40), hover_color=(140, 55, 55),
+                               font_size=22, bold=True)
+
+    def draw(self, surface, mouse_pos):
+        surface.fill((15, 15, 25))
+        cx = sett.SCREEN_WIDTH // 2
+        _draw_text(surface, 'TOWER DEFENSE', cx, 130, self._f48, sett.YELLOW, center=True)
+        _draw_text(surface, 'Place towers. Survive all waves.',
+                   cx, 220, self._f20, sett.LIGHT_GRAY, center=True)
+        self.btn_play.draw(surface, mouse_pos)
+        self.btn_quit.draw(surface, mouse_pos)
+
+    def handle_event(self, event):
+        if self.btn_play.is_clicked(event): 
+            return 'play'
+        if self.btn_quit.is_clicked(event):
+            return 'quit'
+        return None
