@@ -17,6 +17,8 @@ PATH_COLOR = (180, 150, 100)
 GRID_LINE = (45, 100, 28)
 WHITE = (255, 255, 255)
 GREEN = (34, 139, 34)
+DARK_GREY = (40, 40, 40)
+YELLOW = (255, 215, 0)
 
 # maps
 MAPS = [
