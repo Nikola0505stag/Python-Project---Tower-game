@@ -32,7 +32,7 @@ MAPS = [
 
 # enemies
 ENEMY_TYPES = {
-            "basic": {'name': 'Basic', 'hp': 100, 'speed': 80, 'color': RED, 'size': 14}
+        "basic": {'name': 'Basic', 'hp': 100, 'speed': 80, 'color': RED, 'size': 14, 'hp': 100, 'reward': 50}
         }
 
 # money
