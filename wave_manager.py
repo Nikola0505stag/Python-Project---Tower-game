@@ -13,6 +13,8 @@ class WaveManager:
         self.pixel_waypoints = pixel_waypoints
         self.enemy_group = enemy_group
 
+        self.TOTAL_WAVES = TOTAL_WAVES
+
         self.current_wave = 0
         self.state = 'waiting'
         self._wait_timer = BETWEEN_WAVE_DELAY
