@@ -5,6 +5,7 @@ from settings import GAME_WIDTH, TOWER_TYPES
 from map import GameMap, pixel_to_cell
 from enemy import Enemy, EnemyGroup
 from tower import Tower, TowerGroup
+from projectile import ProjectileGroup
 from economy import Economy
 
 def main():
@@ -16,12 +17,14 @@ def main():
     game_map = GameMap(0)
     enemy_group = EnemyGroup()
     tower_group = TowerGroup()
+    projectile_group = ProjectileGroup()
     economy = Economy()
 
     enemy_group.add(Enemy('basic', game_map.pixel_waypoints))
 
     while True:
         dt = clock.tick(FPS) / 1000.0
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -38,12 +41,17 @@ def main():
                             game_map.place_tower(col, row, t)
                             tower_group.add(t)
 
-
-        enemy_group.update(dt)
+    
+        gold_earned = enemy_group.update(dt)
+        economy.earn(gold_earned)
+        tower_group.update(dt, enemy_group, projectile_group)
+        projectile_group.update(dt)
+        
         screen.fill((0,0,0))
         game_map.draw(screen)
         tower_group.draw(screen)
         enemy_group.draw(screen)
+        projectile_group.draw(screen)
         pygame.display.flip()
 
 
