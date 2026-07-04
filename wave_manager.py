@@ -3,7 +3,7 @@ from enemy import Enemy
 WAVE_TABLE = [
         [('basic', 10, 0.9)],
         [('basic', 8, 0.8), ('basic', 6, 0.5)],
-        [('basic', 6, 0.7), ('basic, 12, 0.3'), ('basic', 2, 2.0)]
+        [('basic', 6, 0.7), ('basic', 12, 0.3), ('basic', 2, 2.0)]
         ]
 TOTAL_WAVES = len(WAVE_TABLE)
 BETWEEN_WAVE_DELAY = 7.0

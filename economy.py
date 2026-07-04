@@ -22,5 +22,5 @@ class Economy:
     def lose_life(self, count=1):
         self.lives -= count
 
-    def is_game_ofer(self):
+    def is_game_over(self):
         return self.lives <= 0
