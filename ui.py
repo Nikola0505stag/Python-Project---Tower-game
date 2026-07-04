@@ -172,3 +172,32 @@ class MenuScreen:
         if self.btn_quit.is_clicked(event):
             return 'quit'
         return None
+
+
+class MapSelectScreen:
+    def __init__(self, maps):
+        self._f36 = _font(36, bold=True)
+        self._f14 = _font(14)
+        cx = sett.SCREEN_WIDTH // 2
+        self.buttons = []
+
+        for i, m in enumerate(maps):
+            btn = Button((cx - 130, 260 + i * 80, 260, 54), m['name'], 
+                         font_size=20, bold=True)
+            self.buttons.append((btn, i))
+
+    def draw(self, surface, mouse_pos):
+        surface.fill((15, 15, 25))
+        cx = sett.SCREEN_WIDTH // 2
+        _draw_text(surface, 'SELECT MAP', cx, 130, self._f36, sett.YELLOW, center=True)
+        _draw_text(surface, 'Choose a map to play on.',
+                   cx, 185, self._f14, sett.LIGHT_GRAY, center=True)
+        
+        for btn, _ in self.buttons:
+            btn.draw(surface, mouse_pos)
+
+    def handle_event(self, event):
+        for btn, idx in self.buttons:
+            if btn.is_clicked(event):
+                return idx
+        return None
