@@ -31,6 +31,8 @@ class Tower:
             dx = target.x - self.cx
             dy = target.y - self.cy
 
+            self._angle = math.atan2(dy, dx)
+
             if self._fire_timer <= 0:
                 self._fire_timer = 1.0 / self.fire_rate
                 projectile = Projectile(self.cx, self.cy, target, self.damage, self.projectile_speed, self.base_color)

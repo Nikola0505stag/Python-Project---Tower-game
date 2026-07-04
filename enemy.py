@@ -55,7 +55,7 @@ class Enemy:
 
         bar_w = self.size * 2
         bar_x = ix - self.size
-        bar_y = ix - self.size - 8
+        bar_y = iy - self.size - 8
         ratio = max(0, self.hp / self.max_hp)
         pygame.draw.rect(surface, (80, 0, 0), (bar_x, bar_y, bar_w, 5))
         pygame.draw.rect(surface, (50, 200, 50), (bar_x, bar_y, int(bar_w * ratio), 5))
@@ -81,8 +81,8 @@ class EnemyGroup:
             elif e.alive:
                 alive.append(e)
             
-            self.enemies = alive
-            return gold_earned
+        self.enemies = alive
+        return gold_earned
 
     def draw(self, surface):
         for e in self.enemies:
