@@ -51,6 +51,21 @@ class TestEconomy(unittest.TestCase):
         self.assertEqual(self.eco.gold, 0)
 
 
+    # earn
+    def test_earn_increases_gold(self):
+        self.eco.earn(50)
+        self.assertEqual(self.eco.gold, 350)
+
+    def test_earn_increases_score(self):
+        self.eco.earn(50)
+        self.assertTrue(self.eco.score, 50)
+
+    def test_earn_multiple_times(self):
+        self.eco.earn(50)
+        self.eco.earn(30)
+        self.assertEqual(self.eco.gold, 380)
+        self.assertEqual(self.eco.score, 80)
+
 
 if __name__ == '__main__':
     unittest.main()
