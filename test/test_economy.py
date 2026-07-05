@@ -67,5 +67,20 @@ class TestEconomy(unittest.TestCase):
         self.assertEqual(self.eco.score, 80)
 
 
+    # lost life
+    def test_lose_one_life(self):
+        self.eco.lose_life()
+        self.assertEqual(self.eco.lives, 19)
+
+    def test_lose_mulpiple_lives(self):
+        self.eco.lose_life(5)
+        self.assertEqual(self.eco.lives, 15)
+    
+    def test_lives_can_reach_zero(self):
+        self.eco.lose_life(20)
+        self.assertEqual(self.eco.lives, 0)
+
+
+
 if __name__ == '__main__':
     unittest.main()
