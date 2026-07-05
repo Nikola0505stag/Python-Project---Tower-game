@@ -35,6 +35,8 @@ class WaveManager:
         self._batch_count = 0
         self._spawn_timer = 0.0
         self._current_batches = []
+        self._hp_mult = 1.0
+        self._speed_mult = 1.0
 
     @property
     def wave_number(self):
@@ -68,7 +70,8 @@ class WaveManager:
         self.state = 'spawning'
     
     def _spawn_enemy(self, enemy_type):
-        enemy = Enemy(enemy_type, self.pixel_waypoints)
+        enemy = Enemy(enemy_type, self.pixel_waypoints, hp_multiplier=self._hp_mult,
+                      speed_multiplier=self._speed_mult)
         self.enemy_group.add(enemy)
 
     def update(self, dt):

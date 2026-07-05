@@ -108,7 +108,7 @@ class Game:
 
       eff_dt = dt * self.speed_multiplier
       self.wave_mgr.update(eff_dt)
-      gold_earned, lives_lost = self.enemy_group.update(eff_dt)
+      gold_earned, lives_lost, killed = self.enemy_group.update(eff_dt)
       self.economy.earn(gold_earned)
       self.economy.lose_life(lives_lost)
       self.tower_group.update(eff_dt, self.enemy_group, self.projectile_group)
