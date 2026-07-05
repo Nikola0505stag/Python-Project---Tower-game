@@ -2,8 +2,21 @@ from enemy import Enemy
 
 WAVE_TABLE = [
         [('basic', 10, 0.9)],
-        [('basic', 8, 0.8), ('basic', 6, 0.5)],
-        [('basic', 6, 0.7), ('basic', 12, 0.3), ('basic', 2, 2.0)]
+        [('basic', 8, 0.8), ('fast', 4, 0.5)],
+        [('basic', 6, 0.7), ('swarm', 12, 0.3), ('tank', 1, 2.0)],
+        [('fast', 8, 0.4), ('basic', 6, 0.7), ('swarm', 10, 0.25), ('tank', 2, 2.0)],
+        [('armored', 6, 0.9), ('fast', 6, 0.4), ('swarm', 15, 0.2)],
+        [('basic', 12, 0.5), ('armored', 4, 0.8), ('regen', 3, 2.5), ('tank', 2, 1.8)],
+        [('tank', 10, 0.35), ('armored', 6, 0.75), ('regen', 4, 2.0), ('tank', 2, 2.0)],
+        [('basic', 8, 0.5), ('split', 4, 1.5), ('tank', 3, 1.8), ('boss', 1, 0)],
+        [('armored', 6, 0.6), ('split', 6, 1.2), ('fast', 10, 0.3), ('regen', 3, 2.5)],
+        [('ghost', 5, 1.5), ('fast', 12, 0.3), ('armored', 8, 0.5), ('boss', 1, 4.0)],
+        [('ghost', 6, 1.2), ('swarm', 20, 0.2), ('armored', 10, 0.55), ('fast', 12, 0.3)],
+        [('tank', 6, 1.2), ('regen', 5, 2.0), ('boss', 2, 5.0), ('armored', 8, 0.5)],
+        [('ghost', 8, 1.0), ('split', 8, 1.0), ('fast', 16, 0.28), ('tank', 5, 1.2)],
+        [('armored', 10, 0.45), ('ghost', 6, 1.2), ('regen', 6, 2.0), ('boss', 2, 4.0), ('tank', 5, 1.5)],
+        [('swarm', 25, 0.15), ('ghost', 8, 1.0), ('split', 6, 1.0), ('fast', 15, 0.25),
+         ('armored', 12, 0.4), ('tank', 6, 1.0), ('boss', 3, 3.5)]
         ]
 TOTAL_WAVES = len(WAVE_TABLE)
 BETWEEN_WAVE_DELAY = 7.0
