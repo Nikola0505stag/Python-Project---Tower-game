@@ -13,3 +13,7 @@ class TestEconomy(unittest.TestCase):
 
     def test_starting_score(self):
         self.assertEqual(self.eco.score, 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
