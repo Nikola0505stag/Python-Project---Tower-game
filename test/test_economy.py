@@ -30,6 +30,26 @@ class TestEconomy(unittest.TestCase):
         self.eco.spend(300)
         self.assertFalse(self.eco.can_afford(1))
 
+    
+    # spend
+    def test_spend_deducts_gold(self):
+        self.eco.spend(100)
+        self.assertEqual(self.eco.gold, 200)
+
+    def test_spend_returns_true_on_success(self):
+        self.assertTrue(self.eco.spend(100))
+    
+    def test_spend_returns_false_when_too_poor(self):
+        self.assertFalse(self.eco.spend(999))
+
+    def test_spend_doest_not_deduct_when_too_poor(self):
+        self.eco.spend(999)
+        self.assertEqual(self.eco.gold, 300)
+
+    def test_spend_exact_amout(self):
+        self.eco.spend(300)
+        self.assertEqual(self.eco.gold, 0)
+
 
 
 if __name__ == '__main__':
