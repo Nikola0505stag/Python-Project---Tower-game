@@ -125,9 +125,11 @@ class EnemyGroup:
         for e in self.enemies:
             e.draw(surface)
 
-    def get_first_in_range(self, cx, cy, radius):
+    def get_first_in_range(self, cx, cy, radius, ghost_ok=True):
         best = None
         for e in self.enemies:
+            if e.is_ghost and not ghost_ok:
+                continue
             if math.hypot(e.x - cx, e.y - cy) <= radius:
                 if best is None or e.progress > best.progress:
                     best = e
