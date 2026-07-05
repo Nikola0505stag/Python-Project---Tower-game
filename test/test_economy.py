@@ -81,6 +81,23 @@ class TestEconomy(unittest.TestCase):
         self.assertEqual(self.eco.lives, 0)
 
 
+    # is gameover
+    def test_not_game_over_at_start(self):
+        self.assertFalse(self.eco.is_game_over())
+
+    def test_game_over_when_lives_zero(self):
+        self.eco.lose_life(20)
+        self.assertTrue(self.eco.is_game_over())
+
+    def test_game_over_when_lives_negative(self):
+        self.eco.lose_life(25)
+        self.assertTrue(self.eco.is_game_over())
+
+    def test_not_game_over_with_one_live(self):
+        self.eco.lose_life(19)
+        self.assertFalse(self.eco.is_game_over())
+
+
 
 if __name__ == '__main__':
     unittest.main()
