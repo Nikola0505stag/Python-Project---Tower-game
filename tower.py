@@ -18,6 +18,7 @@ class Tower:
         self.base_cost = data['cost']
         self.gold_spent = data['cost']
         self.level = 0
+        self.can_hit_ghost = data.get('can_hit_ghost', False)
 
         self._fire_timer = 0.0
         self._angle = 0.0
@@ -45,7 +46,7 @@ class Tower:
 
     def update(self, dt, enemy_group, projectile_group):
         self._fire_timer -= dt
-        target = enemy_group.get_first_in_range(self.cx, self.cy, self.range_px)
+        target = enemy_group.get_first_in_range(self.cx, self.cy, self.range_px, ghost_ok=self.can_hit_ghost)
 
         if target:
             dx = target.x - self.cx
