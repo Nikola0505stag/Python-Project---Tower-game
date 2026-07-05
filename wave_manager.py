@@ -52,7 +52,16 @@ class WaveManager:
             self._wait_timer = 0
 
     def _start_wave(self):
-        self._current_batches = list(WAVE_TABLE[self.current_wave])
+        if self.current_wave < len(WAVE_TABLE):
+            self._current_batches = list(WAVE_TABLE[self.current_wave])
+        else:
+            extra = self.current_wave - len(WAVE_TABLE) + 1
+            self._hp_mult = 1.0 + extra * 0.25
+            self._speed_mult = 1.0 + extra * 0.8
+            self._speed_mult = 1.0 + extra * 0.08
+            base = WAVE_TABLE[self.current_wave % len(WAVE_TABLE)]
+            self._current_batches = list(base)
+
         self._batch_index = 0
         self._batch_count = 0
         self._spawn_timer = 0.0
